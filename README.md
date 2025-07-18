@@ -19,7 +19,7 @@ ShelfDB is a simple, self-hosted web application for managing a product database
 
 1. **Clone the repository:**
     ```sh
-    git clone https://github.com/yourusername/ShelfDB.git
+    git clone https://github.com/AceCJM/ShelfDB.git
     cd ShelfDB/src
     ```
 
