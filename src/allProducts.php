@@ -1,6 +1,9 @@
 <?php
-require_once("db/Database.php");
-$db = new AppDatabase("shelf.db");
+    require_once "db/Database.php";
+    // pull database location from .env file
+    // or use a default value
+    $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,21 +27,21 @@ $db = new AppDatabase("shelf.db");
             </thead>
             <tbody>
                 <?php
-                // Fetch all products from the database
-                $result = $db->fetchAllProducts();
-                if ($result === false) {
-                    echo "<tr><td colspan='5'>No products found.</td></tr>";
-                } else {
-                    foreach ($result as $row) {
-                        echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['id']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['department']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['price']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['upc']) . "</td>";
-                        echo "</tr>";
+                    // Fetch all products from the database
+                    $result = $db->fetchAllProducts();
+                    if ($result === false) {
+                        echo "<tr><td colspan='5'>No products found.</td></tr>";
+                    } else {
+                        foreach ($result as $row) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row['id']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['department']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['price']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['upc']) . "</td>";
+                            echo "</tr>";
+                        }
                     }
-                }
                 ?>
             </tbody>
         </table>

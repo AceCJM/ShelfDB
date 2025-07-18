@@ -1,6 +1,6 @@
 <?php
-require_once("db/Database.php");
-$db = new AppDatabase("shelf.db");
+    require_once "db/Database.php";
+    $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,31 +25,31 @@ $db = new AppDatabase("shelf.db");
     </form>
     <a href="index.php">Back to Home</a>
     <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Get the form data
-        $name = $_POST['name'];
-        $department = $_POST['department'];
-        $price = $_POST['price'];
-        $upc = $_POST['upc'];
-        // Prepare the data for insertion
-        $data = [
-            'name' => $name,
-            'department' => $department,
-            'price' => $price,
-            'upc' => $upc,
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Get the form data
+            $name       = $_POST['name'];
+            $department = $_POST['department'];
+            $price      = $_POST['price'];
+            $upc        = $_POST['upc'];
+            // Prepare the data for insertion
+            $data = [
+                'name'       => $name,
+                'department' => $department,
+                'price'      => $price,
+                'upc'        => $upc,
             ];
-        try {
-            // Insert the product into the database
-            $db->insertProduct($data);
-            echo "<p>Product added successfully!</p>";
-        } catch (Exception $e) {
-            echo "<p>Error adding product: " . htmlspecialchars($e->getMessage()) . "</p>";
+            try {
+                // Insert the product into the database
+                $db->insertProduct($data);
+                echo "<p>Product added successfully!</p>";
+            } catch (Exception $e) {
+                echo "<p>Error adding product: " . htmlspecialchars($e->getMessage()) . "</p>";
+            }
         }
-    }
     ?>
 </body>
 </html>
 <?php
-// Close the database connection
+    // Close the database connection
 $db->close();
 ?>
