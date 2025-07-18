@@ -31,18 +31,20 @@ class Database
         }
     }
     // Executes a SQL query and returns the result object
-    public function query($request, $params = array())
+    public function query($request, $params = [])
     {
-        $sql = $request; // SQL query string
-        if (!empty($params)) {
-            // If parameters are provided, prepare the SQL with placeholders
-            $placeholders = array_fill(0, count($params), '?');
-            $sql = str_replace('?', implode(', ', $placeholders), $sql);
-        }
-        // Prepare the SQL statement
-        $stmt = $this->db->prepare($sql); // Prepare the SQL statement
+        $stmt = $this->db->prepare($request); // Prepare the SQL statement
         if (! $stmt) {
             throw new Exception("Failed to prepare statement: " . $this->db->lastErrorMsg());
+        }
+        // Bind parameters if provided
+        if (!empty($params)) {
+            $i = 1;
+            foreach ($params as $value) {
+                $type = is_int($value) ? SQLITE3_INTEGER : (is_float($value) ? SQLITE3_FLOAT : SQLITE3_TEXT);
+                $stmt->bindValue($i, $value, $type);
+                $i++;
+            }
         }
         $result = $stmt->execute(); // Execute the statement
         if (! $result) {
@@ -99,7 +101,7 @@ class Database
             return "$key = ?";
         }, array_keys($data)));
         // Prepare the SQL statement
-        $sql = "UPDATE $table SET $setClause WHERE $where";
+        $sql  = "UPDATE $table SET $setClause WHERE $where";
         $stmt = $this->db->prepare($sql);
         if (! $stmt) {
             throw new Exception("Failed to prepare statement: " . $this->db->lastErrorMsg());
@@ -143,7 +145,7 @@ class AppDatabase
             'name TEXT',
             'department TEXT',
             'price REAL',
-            'upc TEXT UNIQUE'
+            'upc TEXT UNIQUE',
         ]);
     }
     public function queryUPC($upc)

@@ -20,7 +20,7 @@
         <label for="price">Price:</label>
         <input type="number" id="price" name="price" step="0.01" required>
         <label for="upc">UPC:</label>
-        <input type="text" id="upc" name="upc" required>
+        <input type="number" id="upc" name="upc" required>
         <button type="submit">Add Product</button>
     </form>
     <a href="index.php">Back to Home</a>

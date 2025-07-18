@@ -1,18 +1,20 @@
-/* General page styles */
+/* General body and layout */
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     background: #f7f7fa;
     color: #222;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
 }
 
 h1 {
     text-align: center;
-    margin-top: 1.5em;
+    margin-top: 2em;
     color: #2a4d69;
 }
 
+/* Table styling */
 table {
     margin: 2em auto;
     border-collapse: collapse;
@@ -41,7 +43,62 @@ tr:hover {
     background: #e3eaf6;
 }
 
+/* Form styling */
+form {
+    background: #fff;
+    max-width: 400px;
+    margin: 2em auto 1em auto;
+    padding: 2em 2em 1.5em 2em;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 0.2em;
+}
+
+input[type="text"],
+input[type="number"] {
+    padding: 0.6em;
+    border: 1px solid #bfc9d1;
+    border-radius: 4px;
+    font-size: 1em;
+    background: #f9fafb;
+    transition: border 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #2a4d69;
+    outline: none;
+}
+
+button[type="submit"] {
+    background: #2a4d69;
+    color: #fff;
+    border: none;
+    padding: 0.8em 0;
+    border-radius: 4px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1em;
+    transition: background 0.2s;
+}
+
+button[type="submit"]:hover {
+    background: #1e3550;
+}
+
+/* Navigation and links */
 a {
+    display: block;
+    text-align: center;
+    margin: 1.5em auto 0 auto;
     color: #2a4d69;
     text-decoration: none;
     font-weight: 500;
@@ -51,6 +108,7 @@ a:hover {
     text-decoration: underline;
 }
 
+/* Footer navigation */
 footer {
     margin-top: 2em;
     padding: 1em 0;
@@ -59,22 +117,38 @@ footer {
     text-align: center;
 }
 
-footer ul {
+footer nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-footer li {
+footer nav li {
     display: inline-block;
     margin: 0 1em;
 }
 
-footer a {
+footer nav a {
     color: #fff;
     font-weight: 600;
 }
 
+/* Success and error messages */
+p {
+    text-align: center;
+    margin-top: 1em;
+    font-size: 1.05em;
+}
+
+p:has(.error), .error {
+    color: #c0392b;
+}
+
+p:has(.success), .success {
+    color: #27ae60;
+}
+
+/* Responsive design */
 @media (max-width: 700px) {
     table, th, td {
         font-size: 0.95em;
@@ -84,5 +158,20 @@ footer a {
     }
     th, td {
         padding: 0.5em;
+    }
+}
+
+@media (max-width: 500px) {
+    form {
+        max-width: 95vw;
+        padding: 1.5em;
+    }
+
+    table, th, td {
+        font-size: 0.9em;
+    }
+
+    th, td {
+        padding: 0.6em;
     }
 }
