@@ -1,0 +1,88 @@
+/* General page styles */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f7f7fa;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 1.5em;
+    color: #2a4d69;
+}
+
+table {
+    margin: 2em auto;
+    border-collapse: collapse;
+    width: 90%;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+}
+
+th, td {
+    padding: 0.75em 1em;
+    border: 1px solid #dbe2ef;
+    text-align: left;
+}
+
+th {
+    background: #2a4d69;
+    color: #fff;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background: #f1f6fb;
+}
+
+tr:hover {
+    background: #e3eaf6;
+}
+
+a {
+    color: #2a4d69;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    margin-top: 2em;
+    padding: 1em 0;
+    background: #2a4d69;
+    color: #fff;
+    text-align: center;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer li {
+    display: inline-block;
+    margin: 0 1em;
+}
+
+footer a {
+    color: #fff;
+    font-weight: 600;
+}
+
+@media (max-width: 700px) {
+    table, th, td {
+        font-size: 0.95em;
+    }
+    table {
+        width: 100%;
+    }
+    th, td {
+        padding: 0.5em;
+    }
+}
