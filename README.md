@@ -1,5 +1,7 @@
 # ToDo
 - Add quantity for items
+- Add users
+- Add user permissions
 
 # ShelfDB
 
