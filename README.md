@@ -1,3 +1,6 @@
+# ToDo
+- Add quantity for items
+
 # ShelfDB
 
 ShelfDB is a simple, self-hosted web application for managing a product database using SQLite3. It provides a web interface to add, view, and search products, making it ideal for small inventory or catalog management needs.
