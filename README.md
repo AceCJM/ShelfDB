@@ -7,18 +7,26 @@
 
 ShelfDB is a simple, self-hosted web application for managing a product database using SQLite3. It provides a web interface to add, view, and search products, making it ideal for small inventory or catalog management needs.
 
+---
+
 ## Features
 
-- Add new products with name, department, price, and UPC
+- Add new products with name, department, price, quantity, and UPC
 - View all products in a sortable table
 - Search for products by UPC
+- User authentication and permissions
 - Simple, clean web interface
 - Uses SQLite3 for easy, file-based storage
+
+---
 
 ## Requirements
 
 - PHP 7.4+ with SQLite3 extension enabled
 - A web server (e.g., Apache, Nginx, or PHP's built-in server)
+- Python 3 (for initial setup script)
+
+---
 
 ## Getting Started
 
@@ -28,9 +36,12 @@ ShelfDB is a simple, self-hosted web application for managing a product database
     cd ShelfDB/src
     ```
 
-2. **Set up the database:**
-    - By default, the database file will be created at `db/shelf.db` on first run.
-    - You can specify a custom location by setting the `DB_FILE` environment variable.
+2. **Set up the database and admin user:**
+    ```sh
+    python3 setup.py
+    ```
+    - This script will create the database, tables, and a default admin user.
+    - You can specify the database location and admin credentials during setup.
 
 3. **Start the PHP built-in server (for development):**
     ```sh
@@ -38,18 +49,28 @@ ShelfDB is a simple, self-hosted web application for managing a product database
     ```
     Then open [http://localhost:8080](http://localhost:8080) in your browser.
 
-4. **Directory Structure:**
-    ```
-    src/
-      ├── addProduct.php
-      ├── allProducts.php
-      ├── db/
-      │    └── Database.php
-      ├── css/
-      │    └── style.css
-      ├── index.php
-      └── searchProduct.php
-    ```
+---
+
+## Directory Structure
+
+```
+src/
+  ├── addProduct.php
+  ├── allProducts.php
+  ├── db/
+  │    ├── Database.php
+  │    ├── User.php
+  │    ├── UserAuth.php
+  │    └── UserPermissions.php
+  ├── css/
+  │    └── style.css
+  ├── index.php
+  ├── login.php
+  ├── searchProduct.php
+  └── setup.py
+```
+
+---
 
 ## Usage
 
@@ -57,6 +78,18 @@ ShelfDB is a simple, self-hosted web application for managing a product database
 - **All Products:** View all products in the database.
 - **Add Product:** Add a new product to the database.
 - **Search Product:** Search for a product by UPC.
+- **Login:** Authenticate as a user to access features.
+
+---
+
+## User Management & Permissions
+
+- Users are stored in the `users` table.
+- Permissions are managed in the `user_permissions` table.
+- The default admin user is created during setup and has full permissions.
+- You can extend user and permission management in `db/User.php`, `db/UserAuth.php`, and `db/UserPermissions.php`.
+
+---
 
 ## Configuration
 
@@ -65,10 +98,14 @@ ShelfDB is a simple, self-hosted web application for managing a product database
     export DB_FILE=/path/to/your/database.db
     ```
 
+---
+
 ## Customization
 
 - Edit `src/css/style.css` to change the look and feel.
 - Extend `src/db/Database.php` and `AppDatabase` for more advanced features.
+
+---
 
 ## License
 
@@ -76,4 +113,4 @@ MIT License
 
 ---
 
-*Self Hosted
+*Self-hosted product and user management for small teams

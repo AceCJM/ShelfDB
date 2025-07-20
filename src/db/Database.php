@@ -38,7 +38,7 @@ class Database
             throw new Exception("Failed to prepare statement: " . $this->db->lastErrorMsg());
         }
         // Bind parameters if provided
-        if (!empty($params)) {
+        if (! empty($params)) {
             $i = 1;
             foreach ($params as $value) {
                 $type = is_int($value) ? SQLITE3_INTEGER : (is_float($value) ? SQLITE3_FLOAT : SQLITE3_TEXT);
@@ -140,13 +140,6 @@ class AppDatabase
     {
         // Call the parent constructor with the database file path
         $this->db = new Database($dbFile);
-        $this->db->createTable('products', [
-            'id INTEGER PRIMARY KEY',
-            'name TEXT',
-            'department TEXT',
-            'price REAL',
-            'upc TEXT UNIQUE',
-        ]);
     }
     public function queryUPC($upc)
     {

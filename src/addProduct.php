@@ -1,4 +1,13 @@
 <?php
+    // Validate User Authentication
+    session_start();
+    require_once dirname(__FILE__) . "/db/UserAuth.php";
+    $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
+    if (! $userAuth->isAuthenticated()) {
+        header("Location: login.php");
+        exit();
+    }
+    // Load the Database
     require_once "db/Database.php";
     $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
 ?>
@@ -19,6 +28,8 @@
         <input type="text" id="department" name="department" required>
         <label for="price">Price:</label>
         <input type="number" id="price" name="price" step="0.01" required>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="0" required>
         <label for="upc">UPC:</label>
         <input type="number" id="upc" name="upc" required>
         <button type="submit">Add Product</button>
@@ -30,12 +41,14 @@
             $name       = $_POST['name'];
             $department = $_POST['department'];
             $price      = $_POST['price'];
+            $quantity   = $_POST['quantity'];
             $upc        = $_POST['upc'];
             // Prepare the data for insertion
             $data = [
                 'name'       => $name,
                 'department' => $department,
                 'price'      => $price,
+                'quantity'   => $quantity,
                 'upc'        => $upc,
             ];
             try {

@@ -1,4 +1,13 @@
 <?php
+    // Validate User Authentication
+    session_start();
+    require_once dirname(__FILE__) . "/db/UserAuth.php";
+    $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
+    if (! $userAuth->isAuthenticated()) {
+        header("Location: login.php");
+        exit();
+    }
+    // Load the Database
     require_once "db/Database.php";
     // pull database location from .env file
     // or use a default value
@@ -22,6 +31,7 @@
                     <th>Name</th>
                     <th>Department</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>UPC</th>
                 </tr>
             </thead>
@@ -38,6 +48,7 @@
                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['department']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['price']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["quantity"]) . "</td>";
                             echo "<td>" . htmlspecialchars($row['upc']) . "</td>";
                             echo "</tr>";
                         }

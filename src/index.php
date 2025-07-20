@@ -1,4 +1,12 @@
 <?php
+    // Validate User Authentication
+    session_start();
+    require_once dirname(__FILE__) . "/db/UserAuth.php";
+    $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
+    if (! $userAuth->isAuthenticated()) {
+        header("Location: login.php");
+        exit();
+    }
     // Load the Database
     require_once 'db/Database.php';
     $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
