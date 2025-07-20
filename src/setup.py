@@ -1,13 +1,15 @@
 # This file is part of ShelfDB, a personal database management system.
 # Setup script for the ShelfDB project.
-import sqlite3, os, subprocess
+import sqlite3, dotenv, subprocess, os
 
 # Get PHP executable path
-php_executable = input("Enter the path to the PHP executable (default: php): ")
-if not php_executable:
-    php_executable = "php"
-# Set the PHP executable path in the environment
-os.environ['PHP_EXECUTABLE'] = php_executable
+dotenv.load_dotenv()
+if not os.environ.get("PHP_EXECUTABLE"):
+    print("PHP_EXECUTABLE not found in .env file.")
+    php_executable = input("Enter the path to the PHP executable (default: php): ") or "php"
+    dotenv.set_key(".env", "PHP_EXECUTABLE", php_executable)
+else:
+    php_executable = os.environ["PHP_EXECUTABLE"]
 
 
 db_file = input("Enter the path to the database file (default: db/shelf.db): ") or "db/shelf.db"

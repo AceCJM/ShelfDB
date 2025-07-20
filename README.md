@@ -62,7 +62,9 @@ src/
   ├── index.php
   ├── login.php
   ├── searchProduct.php
-  └── setup.py
+  ├── setup.py
+  └── management/
+       └── login.php
 ```
 
 ---
@@ -74,6 +76,7 @@ src/
 - **Add Product:** Add a new product to the database.
 - **Search Product:** Search for a product by UPC.
 - **Login:** Authenticate as a user to access features.
+- **User Management:** (If enabled) Manage users and permissions via `management/login.php`.
 
 ---
 
@@ -83,6 +86,7 @@ src/
 - Permissions are managed in the `user_permissions` table.
 - The default admin user is created during setup and has full permissions.
 - You can extend user and permission management in `db/User.php`, `db/UserAuth.php`, and `db/UserPermissions.php`.
+- The `UserPermissions` class checks permissions for actions like managing users.
 
 ---
 
@@ -92,6 +96,7 @@ src/
     ```sh
     export DB_FILE=/path/to/your/database.db
     ```
+- The PHP executable path can be set in your `.env` file as `PHP_EXECUTABLE`.
 
 ---
 
@@ -99,6 +104,14 @@ src/
 
 - Edit `src/css/style.css` to change the look and feel.
 - Extend `src/db/Database.php` and `AppDatabase` for more advanced features.
+- Add or modify permission logic in `db/UserPermissions.php`.
+
+---
+
+## Security Notes
+
+- Passwords are hashed using PHP's `password_hash` and verified with `password_verify`.
+- Do not expose your database file or `.env` file to the public.
 
 ---
 
