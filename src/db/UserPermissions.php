@@ -17,11 +17,19 @@ class UserPermissions
     public function checkPermission($userID, $permission)
     {
         $stmt = $this->db->prepare("SELECT * FROM user_permissions WHERE user_id = :user_id AND permission = :permission");
-        $stmt->bindValue(':user_id', $userID, SQLITE3_INTEGER);
+        $stmt->bindValue(':user_id', $userID, SQLITE3_TEXT);
         $stmt->bindValue(':permission', $permission, SQLITE3_TEXT);
         $result = $stmt->execute();
 
         return $result && $result->fetchArray() !== false;
+    }
+
+    public function changePermission($userID, $permission)
+    {
+        $stmt = $this->db->prepare("UPDATE user_permissions SET permission = :permission WHERE user_id = :user_id");
+        $stmt->bindValue(':user_id', $userID, SQLITE3_TEXT);
+        $stmt->bindValue(':permission', $permission, SQLITE3_TEXT);
+        return $stmt->execute();
     }
 
     public function close()

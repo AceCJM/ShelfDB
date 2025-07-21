@@ -110,8 +110,8 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Footer navigation */
-footer {
+/* header navigation */
+header {
     margin-top: 2em;
     padding: 1em 0;
     background: #2a4d69;
@@ -119,18 +119,18 @@ footer {
     text-align: center;
 }
 
-footer nav ul {
+header nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-footer nav li {
+header nav li {
     display: inline-block;
     margin: 0 1em;
 }
 
-footer nav a {
+header nav a {
     color: #fff;
     font-weight: 600;
 }

@@ -41,7 +41,7 @@ try:
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS user_permissions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
+            user_id TEXT NOT NULL,
             permission TEXT NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users(id)
         )
@@ -64,6 +64,13 @@ try:
     conn.commit()
     print(f"Admin user '{admin_username}' created successfully.")
     print(f"Admin password hash: {admin_password_hash}")
+    # Add manager_user permission to the admin user
+    cursor.execute('''
+        INSERT OR IGNORE INTO user_permissions (user_id, permission)
+        VALUES (?, 'manage_users')
+    ''', (admin_username,))
+    conn.commit()
+    print(f"Permission 'manage_users' granted to admin user '{admin_username}'.")
 
 except sqlite3.Error as e:
     print(f"An error occurred: {e}")

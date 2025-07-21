@@ -29,8 +29,13 @@ class UserAuth
     public function isAuthenticated()
     {
         // Check if the user is authenticated
-        // This could be implemented using session management or other methods
-        return isset($_SESSION['user_id']);
+        if (!isset($_SESSION['user_id'])) {
+            return false; // User is not authenticated
+        }
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE user_id = :user_id');
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], SQLITE3_TEXT);
+        $result = $stmt->execute();
+        return $result->fetchArray(SQLITE3_ASSOC) !== false; // Return true if user exists
     }
 
     public function close()

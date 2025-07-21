@@ -22,17 +22,21 @@
     </head>
 
     <body>
+        <header>
+        <nav>
+            <ul>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="allProducts.php">All Products</a></li>
+                <li><a href="addProduct.php">Add Product</a></li>
+                <li><a href="searchProduct.php">Search Product</a></li>
+            </ul>
+        </nav>
+        </header>
         <h1>Welcome to ShelfDB</h1>
         <p>This is a simple SQLite3 database interface for managing products.</p>
         <footer>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="allProducts.php">All Products</a></li>
-                    <li><a href="addProduct.php">Add Product</a></li>
-                    <li><a href="searchProduct.php">Search Product</a></li>
-                </ul>
-            </nav>
+            <p>&copy; <?php echo date("Y"); ?> ShelfDB. All rights reserved.</p>
+            <a href="logout.php">Logout</a>
         </footer>
     </body>
 
