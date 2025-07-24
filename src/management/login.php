@@ -1,11 +1,13 @@
 <?php
-    // src/db/UserPermissions.php
+    // src/db/userPermissions.php
     // Login page for user management
-    session_start();
+    if (! isset($_SESSION)) {
+        session_start();
+    }
 
     // Load dependencies and create objects BEFORE any output
-    require_once dirname(__FILE__) . "/../db/UserAuth.php";
-    require_once dirname(__FILE__) . "/../db/UserPermissions.php";
+    require_once dirname(__FILE__) . "/../db/userAuth.php";
+    require_once dirname(__FILE__) . "/../db/userPermissions.php";
     $userAuth        = new UserAuth($_ENV['DB_FILE'] ?? '../db/shelf.db');
     $userPermissions = new UserPermissions($_ENV['DB_FILE'] ?? '../db/shelf.db');
 
@@ -17,11 +19,11 @@
         try {
             if ($userAuth->authenticate($username, $password)) {
                 // Verify user permissions
-                if ($userPermissions->checkPermission($username, "manage_users")) {
+                if ($userPermissions->checkPermission($username, "admin")) {
                     // Set session variable for user ID
                     $_SESSION['user_id'] = $username;
                     // Redirect to the user management page after successful login
-                    header("Location: UserManagement.php");
+                    header("Location: userManagement.php");
                     exit();
                 } else {
                     $error = "You do not have permission to manage users.";

@@ -67,10 +67,10 @@ try:
     # Add manager_user permission to the admin user
     cursor.execute('''
         INSERT OR IGNORE INTO user_permissions (user_id, permission)
-        VALUES (?, 'manage_users')
+        VALUES (?, 'admin')
     ''', (admin_username,))
     conn.commit()
-    print(f"Permission 'manage_users' granted to admin user '{admin_username}'.")
+    print(f"Permission 'admin' granted to admin user '{admin_username}'.")
 
 except sqlite3.Error as e:
     print(f"An error occurred: {e}")

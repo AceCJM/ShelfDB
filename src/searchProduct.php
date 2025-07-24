@@ -1,13 +1,17 @@
 <?php
+    // src/searchProduct.php
+    // This file is responsible for searching for a product by UPC in the database.
+    if (! isset($_SESSION)) {
+        session_start();
+    }
     // Validate User Authentication
-    session_start();
-    require_once dirname(__FILE__) . "/db/UserAuth.php";
+    require_once dirname(__FILE__) . "/db/userAuth.php";
     $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
     if (! $userAuth->isAuthenticated()) {
         header("Location: login.php");
         exit();
     }
-    require_once "db/Database.php";
+    require_once "db/database.php";
     // Initialize the database connection
     $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
 ?>

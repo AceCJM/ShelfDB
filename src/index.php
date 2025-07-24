@@ -1,14 +1,18 @@
 <?php
     // Validate User Authentication
-    session_start();
-    require_once dirname(__FILE__) . "/db/UserAuth.php";
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    require_once dirname(__FILE__) . "/db/userAuth.php";
     $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
+    require_once dirname(__FILE__) . "/db/userPermissions.php";
+    $userPermissions = new UserPermissions($_ENV['DB_FILE'] ?? 'db/shelf.db');
     if (! $userAuth->isAuthenticated()) {
         header("Location: login.php");
         exit();
     }
     // Load the Database
-    require_once 'db/Database.php';
+    require_once 'db/database.php';
     $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
 ?>
 <DOCTYPE html>
@@ -27,7 +31,14 @@
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="allProducts.php">All Products</a></li>
-                <li><a href="addProduct.php">Add Product</a></li>
+                <?php if ($userPermissions->checkPermission($_SESSION['user_id'], 'admin')): ?>
+                    <li><a href="management/userManagement.php">User Management</a></li>
+                    <li><a href="deleteProduct.php">Delete Product</a></li>
+                    <li><a href="updateProduct.php">Update Products</a></li>
+                <?php endif; ?>
+                <?php if ($userPermissions->checkPermission($_SESSION['user_id'], 'write')): ?>
+                    <li><a href="addProduct.php">Add Product</a></li>
+                <?php endif; ?>
                 <li><a href="searchProduct.php">Search Product</a></li>
             </ul>
         </nav>

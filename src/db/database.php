@@ -1,5 +1,5 @@
 <?php
-// src/db/Database.php
+// src/db/database.php
 
 /*
  * This file defines the Database class for interacting with an SQLite3 database.

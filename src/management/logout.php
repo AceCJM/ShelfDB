@@ -3,7 +3,7 @@
 // This file is responsible for clearing local user data on logout
 session_start();
 // Unset all session variables
-$_SESSION = array();
+$_SESSION = [];
 // Destroy the session
 session_destroy();
 // Redirect to the login page after logout

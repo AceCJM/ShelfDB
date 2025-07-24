@@ -1,5 +1,5 @@
 <?php
-// File src/db/User.php
+// File src/db/user.php
 // This file defines the User class for storing user information.
 // User authentication is handled in a separate file.
 

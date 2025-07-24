@@ -1,5 +1,5 @@
 <?php
-// src/db/UserPermissions.php
+// src/db/userPermissions.php
 // This file defines the UserAuth class for handling user authentication.
 
 class UserAuth
@@ -29,7 +29,7 @@ class UserAuth
     public function isAuthenticated()
     {
         // Check if the user is authenticated
-        if (!isset($_SESSION['user_id'])) {
+        if (! isset($_SESSION['user_id'])) {
             return false; // User is not authenticated
         }
         $stmt = $this->db->prepare('SELECT * FROM users WHERE user_id = :user_id');

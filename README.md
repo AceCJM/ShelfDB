@@ -54,10 +54,10 @@ src/
   ├── addProduct.php
   ├── allProducts.php
   ├── db/
-  │    ├── Database.php
-  │    ├── User.php
-  │    ├── UserAuth.php
-  │    └── UserPermissions.php
+  │    ├── database.php
+  │    ├── user.php
+  │    ├── userAuth.php
+  │    └── userPermissions.php
   ├── css/
   │    └── style.css
   ├── index.php
@@ -68,7 +68,7 @@ src/
   └── management/
        ├── login.php
        ├── logout.php
-       ├── UserManagement.php
+       ├── userManagement.php
        └── ChangePermissions.php
 ```
 
@@ -81,7 +81,7 @@ src/
 - **Add Product:** Add a new product to the database.
 - **Search Product:** Search for a product by UPC.
 - **Login:** Authenticate as a user to access features.
-- **User Management:** Manage users and permissions via `management/UserManagement.php` (requires appropriate permissions).
+- **User Management:** Manage users and permissions via `management/userManagement.php` (requires appropriate permissions).
 
 ---
 
@@ -90,7 +90,7 @@ src/
 - Users are stored in the `users` table.
 - Permissions are managed in the `user_permissions` table.
 - The default admin user is created during setup and has full permissions.
-- You can extend user and permission management in `db/User.php`, `db/UserAuth.php`, and `db/UserPermissions.php`.
+- You can extend user and permission management in `db/user.php`, `db/userAuth.php`, and `db/userPermissions.php`.
 - The `UserPermissions` class checks permissions for actions like managing users.
 
 ---
@@ -108,8 +108,8 @@ src/
 ## Customization
 
 - Edit `src/css/style.css` to change the look and feel.
-- Extend `src/db/Database.php` and `AppDatabase` for more advanced features.
-- Add or modify permission logic in `db/UserPermissions.php`.
+- Extend `src/db/database.php` and `AppDatabase` for more advanced features.
+- Add or modify permission logic in `db/userPermissions.php`.
 
 ---
 

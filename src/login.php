@@ -4,7 +4,7 @@
     session_start();
     session_reset();
     // Validate User Authentication
-    require_once dirname(__FILE__) . "/db/UserAuth.php";
+    require_once dirname(__FILE__) . "/db/userAuth.php";
     $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Get the form data

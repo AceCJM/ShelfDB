@@ -1,14 +1,25 @@
 <?php
+    // src/addProduct.php
+    // This file is responsible for adding a new product to the database.
+    if (! isset($_SESSION)) {
+        session_start();
+    }
     // Validate User Authentication
-    session_start();
-    require_once dirname(__FILE__) . "/db/UserAuth.php";
+    require_once dirname(__FILE__) . "/db/userAuth.php";
     $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
     if (! $userAuth->isAuthenticated()) {
         header("Location: login.php");
         exit();
     }
+    // Check User Permissions
+    require_once dirname(__FILE__) . "/db/userPermissions.php";
+    $userPermissions = new UserPermissions($_ENV['DB_FILE'] ?? 'db/shelf.db');
+    if (! $userPermissions->checkPermission($_SESSION['user_id'], 'write') or ! $userPermissions->checkPermission($_SESSION['user_id'], 'admin')) {
+        header("Location: index.php");
+        exit();
+    }
     // Load the Database
-    require_once "db/Database.php";
+    require_once "db/database.php";
     $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
 ?>
 <!DOCTYPE html>
@@ -63,6 +74,8 @@
 </body>
 </html>
 <?php
-    // Close the database connection
+    // Close database connection
+    $userPermissions->close();
+    $userAuth->close();
 $db->close();
 ?>
