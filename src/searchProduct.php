@@ -13,7 +13,11 @@
     }
     require_once "db/database.php";
     // Initialize the database connection
+try {
     $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
+} catch (Exception $e) {
+    die("Database connection failed: " . htmlspecialchars($e->getMessage()));
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,16 +47,7 @@
                     echo "<h2>Product Details</h2>";
                     echo "<table>";
                     echo "<tr><th>ID</th><th>Name</th><th>Department</th><th>Price</th><th>UPC</th></tr>";
-                    foreach ($result as $row) {
-                        echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['id']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['department']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['price']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row["quantity"]) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['upc']) . "</td>";
-                        echo "</tr>";
-                    }
+                    echoProduct($result);
                     echo "</table>";
                 }
             } catch (Exception $e) {

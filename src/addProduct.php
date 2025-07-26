@@ -6,21 +6,33 @@
     }
     // Validate User Authentication
     require_once dirname(__FILE__) . "/db/userAuth.php";
+try {
     $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
-    if (! $userAuth->isAuthenticated()) {
+} catch (Exception $e) {
+    die("Error initializing user authentication: " . htmlspecialchars($e->getMessage()));
+}
+if (! $userAuth->isAuthenticated()) {
         header("Location: login.php");
         exit();
     }
     // Check User Permissions
     require_once dirname(__FILE__) . "/db/userPermissions.php";
+try {
     $userPermissions = new UserPermissions($_ENV['DB_FILE'] ?? 'db/shelf.db');
-    if (! $userPermissions->checkPermission($_SESSION['user_id'], 'write') or ! $userPermissions->checkPermission($_SESSION['user_id'], 'admin')) {
+} catch (Exception $e) {
+    die("Error initializing user permissions: " . htmlspecialchars($e->getMessage()));
+}
+if (! $userPermissions->checkPermission($_SESSION['user_id'], 'write') or ! $userPermissions->checkPermission($_SESSION['user_id'], 'admin')) {
         header("Location: index.php");
         exit();
     }
     // Load the Database
     require_once "db/database.php";
+try {
     $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
+} catch (Exception $e) {
+    die("Error initializing database: " . htmlspecialchars($e->getMessage()));
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

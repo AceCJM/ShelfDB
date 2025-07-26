@@ -9,15 +9,12 @@ class UserAuth
     public function __construct($dbFile)
     {
         $this->db = new SQLite3($dbFile);
-        if (! $this->db) {
-            throw new Exception("Could not connect to the database.");
-        }
     }
 
-    public function authenticate($userID, $password)
+    public function authenticate($userID, $password): bool
     {
         $stmt = $this->db->prepare("SELECT password_hash FROM users WHERE user_id = :user_id");
-        $stmt->bindValue(':user_id', $userID, SQLITE3_TEXT);
+        $stmt->bindValue(':user_id', $userID);
         $result = $stmt->execute();
 
         if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -26,14 +23,23 @@ class UserAuth
         return false;
     }
 
-    public function isAuthenticated()
+    public function updatePassword($userID, $newPassword): bool
+    {
+        $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("UPDATE users SET password_hash = :password_hash WHERE user_id = :user_id");
+        $stmt->bindValue(':password_hash', $passwordHash);
+        $stmt->bindValue(':user_id', $userID);
+        return $stmt->execute() !== false; // Return true if update was successful
+    }
+
+    public function isAuthenticated(): bool
     {
         // Check if the user is authenticated
         if (! isset($_SESSION['user_id'])) {
             return false; // User is not authenticated
         }
         $stmt = $this->db->prepare('SELECT * FROM users WHERE user_id = :user_id');
-        $stmt->bindValue(':user_id', $_SESSION['user_id'], SQLITE3_TEXT);
+        $stmt->bindValue(':user_id', $_SESSION['user_id']);
         $result = $stmt->execute();
         return $result->fetchArray(SQLITE3_ASSOC) !== false; // Return true if user exists
     }

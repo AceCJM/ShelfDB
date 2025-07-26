@@ -28,10 +28,14 @@
         $newUserId         = $_POST['user_id'];
         $newUserPassword   = $_POST['password'];
         $newUserPermission = $_POST['permission'];
-        if ($userPermissions->addUser($newUserId, $newUserPassword, $newUserPermission)) {
-            $message = "User added successfully.";
-        } else {
-            $error = "Failed to add user.";
+        try {
+            if ($userPermissions->addUser($newUserId, $newUserPassword, $newUserPermission)) {
+                $message = "User added successfully.";
+            } else {
+                $error = "Failed to add user.";
+            }
+        } catch (Exception $e) {
+            die("Error adding user: " . htmlspecialchars($e->getMessage()));
         }
     }
 ?>

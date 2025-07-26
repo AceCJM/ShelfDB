@@ -4,18 +4,30 @@
         session_start();
     }
     require_once dirname(__FILE__) . "/db/userAuth.php";
+try {
     $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
-    require_once dirname(__FILE__) . "/db/userPermissions.php";
+} catch (Exception $e) {
+    die("Database connection failed: " . htmlspecialchars($e->getMessage()));
+}
+require_once dirname(__FILE__) . "/db/userPermissions.php";
+try {
     $userPermissions = new UserPermissions($_ENV['DB_FILE'] ?? 'db/shelf.db');
-    if (! $userAuth->isAuthenticated()) {
+} catch (Exception $e) {
+    die("Database connection failed: " . htmlspecialchars($e->getMessage()));
+}
+if (! $userAuth->isAuthenticated()) {
         header("Location: login.php");
         exit();
     }
     // Load the Database
     require_once 'db/database.php';
+try {
     $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
+} catch (Exception $e) {
+    die("Database connection failed: " . htmlspecialchars($e->getMessage()));
+}
 ?>
-<DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
 
     <head>

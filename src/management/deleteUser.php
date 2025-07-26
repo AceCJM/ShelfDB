@@ -1,5 +1,5 @@
 <?php
-    // src/management/deleteuser.php
+    // src/management/deleteUser.php
     // This file is responsible for deleting a user
     if (! isset($_SESSION)) {
         session_start();
@@ -24,8 +24,17 @@
     // Handle form submission to delete a user
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $targetUserId = $_POST['user_id'];
+        if (empty($targetUserId)) {
+            $error = "User ID is required.";
+        } elseif ($targetUserId === $userId) {
+            $error = "You cannot delete your own account.";
+        } elseif ($targetUserId === "admin") {
+            $error = "Cannot delete the admin user.";
+        }
         if ($userPermissions->deleteUser($targetUserId)) {
             $message = "User deleted successfully.";
+            header("Location: userManagement.php?message=" . $message);
+            exit();
         } else {
             $error = "Failed to delete user.";
         }
@@ -41,9 +50,9 @@
 </head>
 <body>
     <h1>Delete User</h1>
-    <form action="deleteuser.php" method="post">
+    <form action="deleteUser.php" method="post">
         <label for="user_id">User ID:</label>
-        <input type="text" id="user_id" name="user_id" required>
+        <input type="text" id="user_id" name="user_id" value="<?php if (isset($_GET['user_id'])) { echo $_GET['user_id']; }?>" required>
         <button type="submit">Delete User</button>
     </form>
     <?php if (isset($message)) {

@@ -18,7 +18,11 @@ if (!$userAuth->isAuthenticated()) {
 
 // Include database connection
 require_once dirname(__FILE__) . "/db/database.php";
-$db = new AppDatabase($dbPath);
+try {
+    $db = new AppDatabase($dbPath);
+} catch (Exception $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
 
 // Check if the user has permission to update products
 if (!$userPermissions->checkPermission($_SESSION['user_id'], 'write')) {
@@ -42,13 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update product in the database
-    $db->updateProduct($productUPC, [
-        'upc' => $productUPC,
-        'name' => $productName,
-        'price' => $productPrice,
-        'department' => $productDepartment,
-        'quantity' => $productQuantity
-    ]);
+    try {
+        $db->updateProduct($productUPC, [
+            'upc' => $productUPC,
+            'name' => $productName,
+            'price' => $productPrice,
+            'department' => $productDepartment,
+            'quantity' => $productQuantity
+        ]);
+    } catch (Exception $e) {
+        die("Failed to update product: " . $e->getMessage());
+    }
     // Redirect to the product list page with success message
     $_SESSION['success'] = "Product updated successfully.";
     header("Location: index.php");
@@ -82,7 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Fetch product details using the provided UPC
         if (isset($_GET['product_upc'])) {
             $productUPC = $_GET['product_upc'];
-            $product = $db->queryUPC($productUPC);
+            try {
+                $product = $db->queryUPC($productUPC);
+            } catch (Exception $e) {
+                die("Failed to fetch product: " . $e->getMessage());
+            }
             if (empty($product)) {
                 echo '<div class="error">Product not found.</div>';
             } else {

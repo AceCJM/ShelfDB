@@ -7,7 +7,7 @@
     // Set db path
     $dbPath = isset($_ENV["DB_FILE"]) ? ".." . $_ENV["DB_FILE"] : "../db/shelf.db";
 
-    // Veryify if the user is authenticated
+    // Verify if the user is authenticated
     require_once dirname(__FILE__) . "/../db/userAuth.php";
     $userAuth = new UserAuth($dbPath);
     if (! $userAuth->isAuthenticated()) {
@@ -22,8 +22,15 @@
     $userPermissions = new UserPermissions($dbPath);
     // Verify if the user has the required permissions
     if (! $userPermissions->checkPermission($userId, 'admin')) {
-        header("Location: index.php");
+        header("Location: login.php");
         exit();
+    }
+
+    // Display any messages or errors
+    if (isset($_GET['message'])) {
+        $message = htmlspecialchars($_GET['message']);
+    } elseif (isset($_GET['error'])) {
+        $error = htmlspecialchars($_GET['error']);
     }
 ?>
 
@@ -40,10 +47,39 @@
         <nav>
             <ul>
                 <li><a href="addUser.php">Add User</a></li>
-                <li><a href="deleteUser.php">Delete User</a></li>
-                <li><a href="updateUser.php">Update User</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
+        </nav>
+        <?php
+        if (isset($message)) {
+            echo "<p class='success'>" . htmlspecialchars($message) . "</p>";
+        } elseif (isset($error)) {
+            echo "<p class='error'>" . htmlspecialchars($error) . "</p>";
+        }
+        ?>
+        <h2>Users</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Permissions</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Fetch and display users
+                $users = $userPermissions->getAllUsers();
+                foreach ($users as $user) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($user['user_id']) . "</td>";
+                    echo "<td>" . htmlspecialchars($user['permission']) . "</td>";
+                    // hyperlink to update user permissions
+                    echo "<td><a href='updateUser.php?user_id=" . htmlspecialchars($user['user_id']) . "'>Update</a> <a href='deleteUser.php?user_id=" . htmlspecialchars($user['user_id']) . "'>Delete</a></td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
     </body>
 </html>
 <?php

@@ -2,8 +2,12 @@
     // Validate User Authentication
     session_start();
     require_once dirname(__FILE__) . "/db/userAuth.php";
+try {
     $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
-    if (! $userAuth->isAuthenticated()) {
+} catch (Exception $e) {
+    die("Error initializing user authentication: " . htmlspecialchars($e->getMessage()));
+}
+if (! $userAuth->isAuthenticated()) {
         header("Location: login.php");
         exit();
     }
@@ -11,7 +15,11 @@
     require_once "db/database.php";
     // pull database location from .env file
     // or use a default value
+try {
     $db = new AppDatabase($_ENV['DB_FILE'] ?? 'db/shelf.db');
+} catch (Exception $e) {
+    die("Error initializing database: " . htmlspecialchars($e->getMessage()));
+}
 
 ?>
 <!DOCTYPE html>
@@ -38,21 +46,34 @@
             <tbody>
                 <?php
                     // Fetch all products from the database
+                try {
                     $result = $db->fetchAllProducts();
-                    if ($result === false) {
+                } catch (Exception $e) {
+                    die("Error fetching products: " . htmlspecialchars($e->getMessage()));
+                }
+                /**
+                 * @param array $result
+                 * @return void
+                 */
+                function echoProduct(array $result)
+                {
+                    foreach ($result as $row) {
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['id']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['department']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['price']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row["quantity"]) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['upc']) . "</td>";
+                        echo "</tr>";
+                    }
+                }
+
+                if (!$result) {
                         echo "<tr><td colspan='5'>No products found.</td></tr>";
                     } else {
-                        foreach ($result as $row) {
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['id']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['department']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['price']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["quantity"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['upc']) . "</td>";
-                            echo "</tr>";
-                        }
-                    }
+                    echoProduct($result);
+                }
                 ?>
             </tbody>
         </table>
