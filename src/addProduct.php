@@ -47,35 +47,35 @@
     </form>
     <a href="index.php">Back to Home</a>
     <?php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Get the form data
-            $name       = $_POST['name'];
-            $department = $_POST['department'];
-            $price      = $_POST['price'];
-            $quantity   = $_POST['quantity'];
-            $upc        = $_POST['upc'];
-            // Prepare the data for insertion
-            $data = [
-                'name'       => $name,
-                'department' => $department,
-                'price'      => $price,
-                'quantity'   => $quantity,
-                'upc'        => $upc,
-            ];
-            try {
-                // Insert the product into the database
-                $db->insertProduct($data);
-                echo "<p>Product added successfully!</p>";
-            } catch (Exception $e) {
-                echo "<p>Error adding product: " . htmlspecialchars($e->getMessage()) . "</p>";
-            }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Get the form data
+        $name       = $_POST['name'];
+        $department = $_POST['department'];
+        $price      = $_POST['price'];
+        $quantity   = $_POST['quantity'];
+        $upc        = $_POST['upc'];
+        // Prepare the data for insertion
+        $data = [
+            'name'       => $name,
+            'department' => $department,
+            'price'      => $price,
+            'quantity'   => $quantity,
+            'upc'        => $upc,
+        ];
+        try {
+            // Insert the product into the database
+            $db->insertProduct($data);
+            echo "<p>Product added successfully!</p>";
+        } catch (Exception $e) {
+            echo "<p>Error adding product: " . htmlspecialchars($e->getMessage()) . "</p>";
         }
+    }
     ?>
 </body>
 </html>
 <?php
-    // Close database connection
-    $userPermissions->close();
-    $userAuth->close();
+// Close database connection
+$userPermissions->close();
+$userAuth->close();
 $db->close();
 ?>
