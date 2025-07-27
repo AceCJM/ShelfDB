@@ -48,6 +48,7 @@ ShelfDB is a simple, self-hosted web application for managing a product database
 
 4. **Start the PHP built-in server (for development):**
     ```sh
+    cd src/
     php -S localhost:8080
     ```
     Then open [http://localhost:8080](http://localhost:8080) in your browser.
