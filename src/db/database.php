@@ -8,7 +8,7 @@
 
 class Database
 {
-    private $db; // SQLite3 database connection object
+    private SQLite3 $db; // SQLite3 database connection object
 
     // Constructor: Opens a connection to the SQLite3 database file
     public function __construct($dbFile)
@@ -49,7 +49,7 @@ class Database
     /**
      * @throws Exception
      */
-    public function insert($table, $data)
+    public function insert($table, $data): void
     {
         $columns      = implode(", ", array_keys($data));                // Get column names
         $placeholders = implode(", ", array_fill(0, count($data), '?')); // Create placeholders for values
@@ -70,7 +70,7 @@ class Database
     /**
      * @throws Exception
      */
-    public function update($table, $data, $where)
+    public function update($table, $data, $where): void
     {
         // Prepare the SET clause with placeholders
         $setClause = implode(", ", array_map(function ($key) {
@@ -87,7 +87,7 @@ class Database
     }
 
     // Closes the database connection
-    public function close()
+    public function close(): void
     {
         $this->db->close();
     }
@@ -117,7 +117,7 @@ class Database
 // Class to contain application-specific database logic
 class AppDatabase
 {
-    private $db;
+    private Database $db;
 
     /**
      * @throws Exception
@@ -160,7 +160,7 @@ class AppDatabase
     /**
      * @throws Exception
      */
-    public function updateProduct($upc, $data)
+    public function updateProduct($upc, $data): void
     {
         // Update the product with the given UPC using the provided data
         $this->db->update('products', $data, "upc = '$upc'");
@@ -169,12 +169,28 @@ class AppDatabase
     /**
      * @throws Exception
      */
-    public function insertProduct($data)
+    public function insertProduct($data): void
     {
         // Insert a new product into the products table
         $this->db->insert('products', $data);
     }
-    public function close()
+
+    /**
+     * @throws Exception
+     */
+    public function getZeroExportData(): array
+    {
+        // Fetch products with zero quantity for export
+        $result = $this->db->query("SELECT upc, name, price, department, quantity FROM products WHERE quantity = 0");
+        $data = [];
+        // Fetch each row as an associative array and add to $data
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $data[] = $row;
+        }
+        return $data; // Return all rows
+    }
+
+    public function close(): void
     {
         // Close the database connection
         $this->db->close();
@@ -183,7 +199,7 @@ class AppDatabase
     /**
      * @throws Exception
      */
-    public function deleteProduct($productId)
+    public function deleteProduct($productId): void
     {
         // Delete a product by its ID
         $this->db->query("DELETE FROM products WHERE id = ?", [$productId]);

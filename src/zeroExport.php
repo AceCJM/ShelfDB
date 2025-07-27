@@ -6,10 +6,10 @@ if (!isset($_SESSION)) {
     session_start();
 }
 // Set db path
-$dbPath = isset($_ENV["DB_FILE"]) ? ".." . $_ENV["DB_FILE"] : "../db/shelf.db";
+$dbPath = $_ENV["DB_FILE"] ?? "db/shelf.db";
 
 // Verify if the user is authenticated
-require_once dirname(__FILE__) . "/../db/userAuth.php";
+require_once dirname(__FILE__) . "/db/userAuth.php";
 $userAuth = new UserAuth($dbPath);
 if (! $userAuth->isAuthenticated()) {
     header("Location: login.php");
@@ -19,7 +19,7 @@ $userAuth->close(); // Close the database connection after use
 $userId = $_SESSION['user_id'] ?? null;
 
 // Include the UserPermissions class for permission checks
-require_once dirname(__FILE__) . "/../db/userPermissions.php";
+require_once dirname(__FILE__) . "/db/userPermissions.php";
 $userPermissions = new UserPermissions($dbPath);
 // Verify if the user has the required permissions
 if (! $userPermissions->checkPermission($userId, 'admin')) {
@@ -28,7 +28,7 @@ if (! $userPermissions->checkPermission($userId, 'admin')) {
 }
 
 // Include the AppDatabase class for database operations
-require_once dirname(__FILE__) . "/../db/database.php";
+require_once dirname(__FILE__) . "/db/database.php";
 try {
     $db = new AppDatabase($dbPath);
 } catch (Exception $e) {

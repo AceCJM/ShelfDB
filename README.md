@@ -39,7 +39,14 @@ ShelfDB is a simple, self-hosted web application for managing a product database
     - This script will create the database, tables, and a default admin user.
     - You can specify the database location and admin credentials during setup.
 
-3. **Start the PHP built-in server (for development):**
+3. **Install composer requirements:**
+    ```sh
+    cd ../
+    composer.phar install
+    ```
+    - This will install the dependencies declared in composer.json
+
+4. **Start the PHP built-in server (for development):**
     ```sh
     php -S localhost:8080
     ```
@@ -53,23 +60,28 @@ ShelfDB is a simple, self-hosted web application for managing a product database
 src/
   ├── addProduct.php
   ├── allProducts.php
-  ├── db/
-  │    ├── database.php
-  │    ├── user.php
-  │    ├── userAuth.php
-  │    └── userPermissions.php
-  ├── css/
-  │    └── style.css
+  ├── deleteProduct.php
   ├── index.php
   ├── login.php
   ├── logout.php
   ├── searchProduct.php
   ├── setup.py
+  ├── updateProduct.php
+  ├── zeroExport.php
+  ├── css/
+  │    └── style.css
+  ├── db/
+  │    ├── database.php
+  │    ├── shelf.db
+  │    ├── userAuth.php
+  │    └── userPermissions.php
   └── management/
+       ├── addUser.php
+       ├── deleteUser.php
        ├── login.php
        ├── logout.php
-       ├── userManagement.php
-       └── ChangePermissions.php
+       ├── updateUser.php
+       └── userManagement.php
 ```
 
 ---
@@ -79,7 +91,10 @@ src/
 - **Home:** Overview and navigation.
 - **All Products:** View all products in the database.
 - **Add Product:** Add a new product to the database.
+- **Update Product:** Update product details.
+- **Delete Product:** Remove products from the database.
 - **Search Product:** Search for a product by UPC.
+- **Zero Export:** Export products with zero quantity.
 - **Login:** Authenticate as a user to access features.
 - **User Management:** Manage users and permissions via `management/userManagement.php` (requires appropriate permissions).
 
@@ -90,7 +105,7 @@ src/
 - Users are stored in the `users` table.
 - Permissions are managed in the `user_permissions` table.
 - The default admin user is created during setup and has full permissions.
-- You can extend user and permission management in `db/user.php`, `db/userAuth.php`, and `db/userPermissions.php`.
+- You can extend user and permission management in `db/userAuth.php` and `db/userPermissions.php`.
 - The `UserPermissions` class checks permissions for actions like managing users.
 
 ---
@@ -127,4 +142,4 @@ MIT License
 
 ---
 
-*Self-hosted product and user management
+*Self-hosted product and user management solution.*

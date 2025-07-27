@@ -1,15 +1,8 @@
 {
-  "name": "vendor_name/ShelfDB",
-  "description": "description",
   "minimum-stability": "stable",
   "license": "proprietary",
-  "authors": [
-    {
-      "name": "cody",
-      "email": "email@example.com"
-    }
-  ],
   "require": {
-    
+    "fobiaweb/barcode39": "*",
+    "fpdf/fpdf": "^1.86"
   }
 }
