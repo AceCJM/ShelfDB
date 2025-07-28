@@ -21,6 +21,7 @@ ShelfDB is a simple, self-hosted web application for managing a product database
 
 - PHP 7.4+ with SQLite3 extension enabled
 - PHP GD extension (`php-gd`) for barcode image generation
+- PHP Sqlite3
 - Composer (for PHP dependencies)
 - A web server (e.g., Apache, Nginx, or PHP's built-in server)
 - Python 3 (for initial setup script)
