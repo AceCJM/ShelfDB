@@ -44,9 +44,10 @@ try {
                 <li><a href="index.php">Home</a></li>
                 <li><a href="allProducts.php">All Products</a></li>
                 <?php if ($userPermissions->checkPermission($_SESSION['user_id'], 'admin')): ?>
-                    <li><a href="management/userManagement.php">User Management</a></li>
+                    <li><a href="addProduct.php">Add Product</a></li>
                     <li><a href="deleteProduct.php">Delete Product</a></li>
                     <li><a href="updateProduct.php">Update Products</a></li>
+                    <li><a href="management/userManagement.php">User Management</a></li>
                 <?php endif; ?>
                 <?php if ($userPermissions->checkPermission($_SESSION['user_id'], 'write')): ?>
                     <li><a href="addProduct.php">Add Product</a></li>

@@ -6,8 +6,11 @@
     }
     // Validate User Authentication
     require_once dirname(__FILE__) . "/db/userAuth.php";
+
+    // Set db path
+    $dbPath = $_ENV['DB_FILE'] ?? 'db/shelf.db';
 try {
-    $userAuth = new UserAuth($_ENV['DB_FILE'] ?? 'db/shelf.db');
+    $userAuth = new UserAuth($dbPath);
 } catch (Exception $e) {
     die("Error initializing user authentication: " . htmlspecialchars($e->getMessage()));
 }
@@ -18,11 +21,11 @@ if (! $userAuth->isAuthenticated()) {
     // Check User Permissions
     require_once dirname(__FILE__) . "/db/userPermissions.php";
 try {
-    $userPermissions = new UserPermissions($_ENV['DB_FILE'] ?? 'db/shelf.db');
+    $userPermissions = new UserPermissions($dbPath);
 } catch (Exception $e) {
     die("Error initializing user permissions: " . htmlspecialchars($e->getMessage()));
 }
-if (! $userPermissions->checkPermission($_SESSION['user_id'], 'write') or ! $userPermissions->checkPermission($_SESSION['user_id'], 'admin')) {
+if (! ($userPermissions->checkPermission($_SESSION['user_id'], 'write')) && ! ($userPermissions->checkPermission($_SESSION['user_id'], 'admin'))) {
         header("Location: index.php");
         exit();
     }

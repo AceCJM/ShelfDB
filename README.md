@@ -13,12 +13,15 @@ ShelfDB is a simple, self-hosted web application for managing a product database
 - User management (add/change permissions)
 - Simple, clean web interface
 - Uses SQLite3 for easy, file-based storage
+- **Export products with zero quantity as a PDF with barcodes (Code 39)**
 
 ---
 
 ## Requirements
 
 - PHP 7.4+ with SQLite3 extension enabled
+- PHP GD extension (`php-gd`) for barcode image generation
+- Composer (for PHP dependencies)
 - A web server (e.g., Apache, Nginx, or PHP's built-in server)
 - Python 3 (for initial setup script)
 
@@ -36,22 +39,28 @@ ShelfDB is a simple, self-hosted web application for managing a product database
     ```sh
     python3 setup.py
     ```
-    - This script will create the database, tables, and a default admin user.
-    - You can specify the database location and admin credentials during setup.
+   - This script will create the database, tables, and a default admin user.
+   - You can specify the database location and admin credentials during setup.
 
 3. **Install composer requirements:**
     ```sh
     cd ../
-    composer.phar install
+    composer install
     ```
-    - This will install the dependencies declared in composer.json
+   - This will install the dependencies declared in `composer.json`.
 
-4. **Start the PHP built-in server (for development):**
+4. **Install image dependencies:**
+    ```sh
+    sudo apt-get install php-gd
+    ```
+   - This is required for barcode image processing.
+
+5. **Start the PHP built-in server (for development):**
     ```sh
     cd src/
     php -S localhost:8080
     ```
-    Then open [http://localhost:8080](http://localhost:8080) in your browser.
+   Then open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ---
 
@@ -95,7 +104,7 @@ src/
 - **Update Product:** Update product details.
 - **Delete Product:** Remove products from the database.
 - **Search Product:** Search for a product by UPC.
-- **Zero Export:** Export products with zero quantity.
+- **Zero Export:** Export products with zero quantity as a PDF with Code 39 barcodes (`zeroExport.php`). Each page contains a 3x10 grid of barcodes.
 - **Login:** Authenticate as a user to access features.
 - **User Management:** Manage users and permissions via `management/userManagement.php` (requires appropriate permissions).
 
